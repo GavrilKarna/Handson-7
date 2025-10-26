@@ -1,6 +1,7 @@
 package Task1;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class IntroToOOPPractice {
     public static void main(String[] args) {
@@ -15,94 +16,102 @@ public class IntroToOOPPractice {
         System.out.println("=== SEBELUM OOP: CARA PROSEDURAL ===");
 
         // Latihan 1: Data mahasiswa dengan variabel terpisah (cara lama)
-        // Buat variabel untuk menyimpan data 3 mahasiswa
-        // Setiap mahasiswa memiliki: nama, nim, jurusan, ipk
-
-        String namaMhs1 = "Alice"; // Isi dengan data mahasiswa 1
-        String nimMhs1 = "12345";
+        String namaMhs1 = "Andi";
+        String nimMhs1 = "2310001";
         String jurusanMhs1 = "Informatika";
         double ipkMhs1 = 3.5;
 
-        String namaMhs2 = "Bob"; // Isi dengan data mahasiswa 2
-        String nimMhs2 = "67890";
+        String namaMhs2 = "Budi";
+        String nimMhs2 = "2310002";
         String jurusanMhs2 = "Sistem Informasi";
-        double ipkMhs2 = 2.8;
+        double ipkMhs2 = 3.0;
 
-        String namaMhs3 = "Charlie"; // Isi dengan data mahasiswa 3
-        String nimMhs3 = "11111";
-        String jurusanMhs3 = "Teknik Elektro";
-        double ipkMhs3 = 3.2;
+        String namaMhs3 = "Citra";
+        String nimMhs3 = "2310003";
+        String jurusanMhs3 = "Teknik Komputer";
+        double ipkMhs3 = 2.4;
 
         // Print semua data mahasiswa menggunakan cara prosedural
         // Implementasikan printing untuk semua mahasiswa
-        System.out.println("Mahasiswa 1: Nama = " + namaMhs1 + ", NIM = " + nimMhs1 + ", Jurusan = " + jurusanMhs1 + ", IPK = " + ipkMhs1);
-        System.out.println("Mahasiswa 2: Nama = " + namaMhs2 + ", NIM = " + nimMhs2 + ", Jurusan = " + jurusanMhs2 + ", IPK = " + ipkMhs2);
-        System.out.println("Mahasiswa 3: Nama = " + namaMhs3 + ", NIM = " + nimMhs3 + ", Jurusan = " + jurusanMhs3 + ", IPK = " + ipkMhs3);
+        System.out.println("Mahasiswa 1: " + namaMhs1 + " (" + nimMhs1 + "), " + jurusanMhs1 + ", IPK: " + ipkMhs1);
+        System.out.println("Mahasiswa 2: " + namaMhs2 + " (" + nimMhs2 + "), " + jurusanMhs2 + ", IPK: " + ipkMhs2);
+        System.out.println("Mahasiswa 3: " + namaMhs3 + " (" + nimMhs3 + "), " + jurusanMhs3 + ", IPK: " + ipkMhs3);
 
         System.out.println("\n=== MASALAH DENGAN CARA PROSEDURAL ===");
-        // Tuliskan dalam komentar 3 masalah yang Anda lihat dari cara di atas
-        // 1. Kode menjadi berulang dan sulit dikelola ketika jumlah mahasiswa bertambah.
-        // 2. Tidak ada struktur yang jelas, sehingga mudah terjadi kesalahan dalam pengelolaan data.
-        // 3. Sulit untuk menambahkan fitur baru seperti validasi atau operasi pada data mahasiswa.
+        /*
+         * 1. Tidak efisien — jika ada 100 mahasiswa, kita harus buat 400 variabel!
+         * 2. Data tidak terorganisir — sulit untuk mengelompokkan data tiap mahasiswa.
+         * 3. Tidak mudah dikembangkan — sulit menambah fungsi (misalnya: cek lulus, hitung predikat, dsb).
+         */
 
         // ===== DENGAN OOP: CARA OBJECT-ORIENTED =====
         System.out.println("\n=== DENGAN OOP: CARA OBJECT-ORIENTED ===");
 
-        // Latihan 2: Menggunakan class Mahasiswa (akan dibuat di bawah)
+        // Latihan 2: Menggunakan class Mahasiswa// Latihan 2: Menggunakan class Mahasiswa (akan dibuat di bawah)
         // Buat 3 object Mahasiswa
         // Set data untuk setiap mahasiswa
+        Mahasiswa m1 = new Mahasiswa("Andi", "2310001", "Informatika", 3.5);
+        Mahasiswa m2 = new Mahasiswa("Budi", "2310002", "Sistem Informasi", 3.0);
+        Mahasiswa m3 = new Mahasiswa("Citra", "2310003", "Teknik Komputer", 2.4);
+
         // Print menggunakan method dari class
 
         // Buat object mahasiswa dan isi datanya
-        Mahasiswa mhs1 = new Mahasiswa("Alice", "12345", "Informatika", 3.5);
-        Mahasiswa mhs2 = new Mahasiswa("Bob", "67890", "Sistem Informasi", 2.8);
-        Mahasiswa mhs3 = new Mahasiswa("Charlie", "11111", "Teknik Elektro", 3.2);
-
-        mhs1.tampilkanInfo();
-        mhs2.tampilkanInfo();
-        mhs3.tampilkanInfo();
+        m1.tampilkanInfo();
+        m2.tampilkanInfo();
+        m3.tampilkanInfo();
 
         // ===== ANALOGI DUNIA NYATA =====
-        System.out.println("\n=== ANALOGI DUNIA NYATA ===");
+        System.out.println("\n=== ANALOGI DUNIA NYATA: PERPUSTAKAAN ===");
 
         // Latihan 3: Implementasi analogi perpustakaan
         // Buat beberapa object Buku
+        Buku b1 = new Buku("Belajar Java", "John Doe", "978-1111", 2022, true);
+        Buku b2 = new Buku("Pemrograman OOP", "Jane Smith", "978-2222", 2023, true);
+        Buku b3 = new Buku("Struktur Data", "Rudi Hartono", "978-3333", 2020, true);
+
         // Buat object Mahasiswa yang meminjam buku
+        Perpustakaan perpustakaan = new Perpustakaan("Perpustakaan Informatika");
+        perpustakaan.tambahBuku(b1);
+        perpustakaan.tambahBuku(b2);
+        perpustakaan.tambahBuku(b3);
+
+        perpustakaan.tampilkanDaftarBuku();
+
         // Simulasikan proses peminjaman
+        System.out.println("\n--- Proses Peminjaman ---");
+        perpustakaan.pinjamBuku(m1, b2);
+        perpustakaan.pinjamBuku(m3, b1);
 
-        // Implementasikan analogi perpustakaan
-        Perpustakaan perpustakaan = new Perpustakaan();
-        Buku buku1 = new Buku("Pemrograman Java", "John Doe", "ISBN123", 2020, true);
-        Buku buku2 = new Buku("Struktur Data", "Jane Smith", "ISBN456", 2019, true);
-        perpustakaan.tambahBuku(buku1);
-        perpustakaan.tambahBuku(buku2);
+        // Cek ketersediaan buku setelah dipinjam
+        perpustakaan.tampilkanDaftarBuku();
 
-        Mahasiswa peminjam = new Mahasiswa("Alice", "12345", "Informatika", 3.5);
-        System.out.println("Simulasi peminjaman buku:");
-        buku1.pinjam();
-        buku1.kembalikan();
+        // Citra mengembalikan buku
+        System.out.println("\n--- Proses Pengembalian ---");
+        perpustakaan.kembalikanBuku(m3, b1);
+        perpustakaan.tampilkanDaftarBuku();
 
         // ===== KEUNTUNGAN OOP =====
         System.out.println("\n=== KEUNTUNGAN OOP ===");
-        // Tuliskan dalam komentar 5 keuntungan OOP yang Anda rasakan
-        // 1. Encapsulation: Data dan metode terkait dikelompokkan dalam satu unit (class), sehingga lebih aman dan terorganisir.
-        // 2. Inheritance: Memungkinkan pewarisan sifat dari class induk ke anak, mengurangi duplikasi kode.
-        // 3. Polymorphism: Objek dapat memiliki banyak bentuk, memudahkan penggunaan interface yang sama untuk class berbeda.
-        // 4. Abstraction: Menyembunyikan detail implementasi, fokus pada apa yang dilakukan objek.
-        // 5. Modularity: Kode lebih mudah dipelihara, diperbaiki, dan diperluas karena terbagi dalam modul-modul kecil.
+        /*
+         * 1. Reusability — class dapat digunakan kembali tanpa menulis ulang kode.
+         * 2. Encapsulation — data terlindungi di dalam objek.
+         * 3. Modularity — kode terorganisir dengan baik dan mudah dikelola.
+         * 4. Scalability — mudah menambah fitur tanpa mengubah kode lama.
+         * 5. Real-world modeling — mudah memodelkan dunia nyata (misal mahasiswa, buku, perpustakaan).
+         */
     }
 }
 
-// ===== DEFINISI CLASS =====
-
+// ===== CLASS MAHASISWA =====
 // Buat class Mahasiswa dengan struktur berikut:
 class Mahasiswa {
     // Instance variables
     // Definisikan instance variables untuk nama, nim, jurusan, ipk
-    private String nama;
-    private String nim;
-    private String jurusan;
-    private double ipk;
+    String nama;
+    String nim;
+    String jurusan;
+    double ipk;
 
     // Constructor
     // Buat constructor untuk inisialisasi data mahasiswa
@@ -116,7 +125,13 @@ class Mahasiswa {
     // Methods
     // Buat method untuk menampilkan informasi mahasiswa
     public void tampilkanInfo() {
-        System.out.println("Nama: " + nama + ", NIM: " + nim + ", Jurusan: " + jurusan + ", IPK: " + ipk);
+        System.out.println("Nama: " + nama);
+        System.out.println("NIM: " + nim);
+        System.out.println("Jurusan: " + jurusan);
+        System.out.println("IPK: " + ipk);
+        System.out.println("Status: " + (isLulus() ? "Lulus" : "Belum Lulus"));
+        System.out.println("Predikat: " + getPredikat());
+        System.out.println("---------------------------");
     }
 
     // Buat method untuk mengecek apakah mahasiswa lulus (IPK >= 2.75)
@@ -126,27 +141,23 @@ class Mahasiswa {
 
     // Buat method untuk menghitung predikat berdasarkan IPK
     public String getPredikat() {
-        if (ipk >= 3.5) {
-            return "Cum Laude";
-        } else if (ipk >= 3.0) {
-            return "Sangat Memuaskan";
-        } else if (ipk >= 2.75) {
-            return "Memuaskan";
-        } else {
-            return "Tidak Lulus";
-        }
+        if (ipk >= 3.5) return "Cumlaude";
+        else if (ipk >= 3.0) return "Sangat Baik";
+        else if (ipk >= 2.75) return "Baik";
+        else return "Perlu Perbaikan";
     }
 }
 
 // Buat class Buku dengan struktur berikut:
+// ===== CLASS BUKU =====
 class Buku {
     // Instance variables
     // Definisikan variables untuk judul, penulis, isbn, tahunTerbit, tersedia
-    private String judul;
-    private String penulis;
-    private String isbn;
-    private int tahunTerbit;
-    private boolean tersedia;
+    String judul;
+    String penulis;
+    String isbn;
+    int tahunTerbit;
+    boolean tersedia;
 
     // Constructor
     // Buat constructor
@@ -161,38 +172,62 @@ class Buku {
     // Methods
     // Buat method untuk menampilkan info buku
     public void tampilkanInfo() {
-        System.out.println("Judul: " + judul + ", Penulis: " + penulis + ", ISBN: " + isbn + ", Tahun Terbit: " + tahunTerbit + ", Tersedia: " + tersedia);
+        System.out.println(judul + " - " + penulis + " (" + tahunTerbit + ")");
+        System.out.println("ISBN: " + isbn);
+        System.out.println("Status: " + (tersedia ? "Tersedia" : "Sedang Dipinjam"));
+        System.out.println("---------------------------");
     }
 
     // Buat method untuk meminjam buku
     public void pinjam() {
         if (tersedia) {
             tersedia = false;
-            System.out.println("Buku '" + judul + "' berhasil dipinjam.");
+            System.out.println("Buku \"" + judul + "\" berhasil dipinjam.");
         } else {
-            System.out.println("Buku '" + judul + "' tidak tersedia.");
+            System.out.println("Maaf, buku \"" + judul + "\" sedang dipinjam.");
         }
     }
 
     // Buat method untuk mengembalikan buku
     public void kembalikan() {
-        tersedia = true;
-        System.out.println("Buku '" + judul + "' telah dikembalikan.");
+        if (!tersedia) {
+            tersedia = true;
+            System.out.println("Buku \"" + judul + "\" telah dikembalikan.");
+        } else {
+            System.out.println("Buku \"" + judul + "\" memang sudah tersedia.");
+        }
     }
 }
 
 // Buat class Perpustakaan yang mengelola buku dan peminjaman
+// ===== CLASS PERPUSTAKAAN =====
 class Perpustakaan {
     // Implementasikan class perpustakaan
-    private java.util.ArrayList<Buku> bukuList = new java.util.ArrayList<>();
+    String namaPerpustakaan;
+    ArrayList<Buku> daftarBuku = new ArrayList<>();
 
-    public void tambahBuku(Buku buku) {
-        bukuList.add(buku);
+    public Perpustakaan(String namaPerpustakaan) {
+        this.namaPerpustakaan = namaPerpustakaan;
     }
 
-    public void tampilkanBuku() {
-        for (Buku b : bukuList) {
+    public void tambahBuku(Buku buku) {
+        daftarBuku.add(buku);
+    }
+
+    public void tampilkanDaftarBuku() {
+        System.out.println("\nDaftar Buku di " + namaPerpustakaan + ":");
+        for (Buku b : daftarBuku) {
             b.tampilkanInfo();
         }
+    }
+
+    public void pinjamBuku(Mahasiswa mhs, Buku buku) {
+        System.out.println(mhs.nama + " mencoba meminjam \"" + buku.judul + "\"");
+        buku.pinjam();
+    }
+
+    public void kembalikanBuku(Mahasiswa mhs, Buku buku) {
+        System.out.println(mhs.nama + " mengembalikan \"" + buku.judul + "\"");
+        buku.kembalikan();
     }
 }

@@ -1,6 +1,7 @@
 package Task3;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 public class ConstructorPractice {
     public static void main(String[] args) {
@@ -19,8 +20,10 @@ public class ConstructorPractice {
         // Tunjukkan perbedaan penggunaan default constructor
 
         // Demonstrasikan penggunaan default constructor
-        SimpleClass obj = new SimpleClass();
-        System.out.println("Objek SimpleClass dibuat menggunakan default constructor.");
+        SimpleClass simple1 = new SimpleClass();
+        SimpleClass simple2 = new SimpleClass("Contoh dengan parameter");
+        System.out.println(simple1.message);
+        System.out.println(simple2.message);
 
         // ===== CONSTRUCTOR OVERLOADING =====
         System.out.println("\n=== CONSTRUCTOR OVERLOADING ===");
@@ -30,14 +33,15 @@ public class ConstructorPractice {
         // Setiap constructor untuk kasus penggunaan yang berbeda
 
         // Buat object Product menggunakan berbagai constructors
-        Product p1 = new Product("P001", "Laptop", "Laptop Gaming", 15000.0, "Elektronik", 10, "SupplierA");
-        Product p2 = new Product("P002", "Mouse", 500.0);
-        Product p3 = new Product(p1);
-        Product p4 = new Product();
-        p1.displayProductInfo();
-        p2.displayProductInfo();
-        p3.displayProductInfo();
-        p4.displayProductInfo();
+        Product fullProduct = new Product("P001", "Laptop", "Laptop Gaming", 15000000, "Electronics", 10, "Asus Supplier");
+        Product simpleProduct = new Product("P002", "Mouse", 150000);
+        Product copiedProduct = new Product(fullProduct);
+        Product defaultProduct = new Product();
+
+        fullProduct.displayProductInfo();
+        simpleProduct.displayProductInfo();
+        copiedProduct.displayProductInfo();
+        defaultProduct.displayProductInfo();
 
         // ===== KEYWORD THIS =====
         System.out.println("\n=== KEYWORD THIS ===");
@@ -47,12 +51,11 @@ public class ConstructorPractice {
         // Gunakan this untuk memanggil constructor lain
         // Gunakan this untuk mereferensikan current object
 
-        // Demonstrasikan berbagai penggunaan this
-        p1.updateStock(5);
-        System.out.println("Stok setelah update: " + p1.inStock);
-        p1.applyDiscount(10.0);
-        System.out.println("Harga setelah diskon: " + p1.price);
-        System.out.println("Apakah tersedia? " + p1.isAvailable());
+        Product discountedProduct = new Product("P003", "Keyboard", "Mechanical Keyboard", 500000, "Accessories", 5, "Logitech");
+        discountedProduct.applyDiscount(10);
+        discountedProduct.displayProductInfo();
+        discountedProduct.updateStock(3);
+        System.out.println("Apakah tersedia? " + discountedProduct.isAvailable());
 
         // ===== CONSTRUCTOR CHAINING =====
         System.out.println("\n=== CONSTRUCTOR CHAINING ===");
@@ -61,13 +64,17 @@ public class ConstructorPractice {
         // Implementasikan constructor chaining dengan this()
         // Tunjukkan keuntungan constructor chaining
 
-        // Implementasikan constructor chaining
-        Employee emp1 = new Employee("E001", "John", "Doe", "IT", "Developer", 5000.0, LocalDate.of(2020, 1, 1));
-        Employee emp2 = new Employee("E002", "Jane", "Smith", "HR", "Manager", 6000.0);
-        Employee emp3 = new Employee("E003", "Bob", "Johnson");
+        Employee emp1 = new Employee();
+        Employee emp2 = new Employee("E001", "John", "Doe");
+        Employee emp3 = new Employee("E002", "Jane", "Smith", "IT", "Developer", 8000000, LocalDate.of(2020, 5, 15));
+
         emp1.getEmployeeInfo();
         emp2.getEmployeeInfo();
         emp3.getEmployeeInfo();
+
+        emp3.giveRaise(10);
+        emp3.getEmployeeInfo();
+        System.out.println("Lama bekerja: " + emp3.calculateYearsOfService() + " tahun");
 
         // ===== INITIALIZATION ORDER =====
         System.out.println("\n=== INITIALIZATION ORDER ===");
@@ -86,8 +93,15 @@ public class ConstructorPractice {
 // Implementasikan class SimpleClass (tanpa custom constructor)
 class SimpleClass {
     // Hanya instance variables, tanpa constructor
-    private String nama;
-    private int umur;
+    String message = "Default constructor aktif";
+
+    public SimpleClass() {
+        System.out.println("Default constructor dipanggil (SimpleClass)");
+    }
+
+    public SimpleClass(String message) {
+        this.message = "Custom constructor: " + message;
+    }
 }
 
 // Implementasikan class Product dengan constructor overloading
@@ -117,7 +131,7 @@ class Product {
     // Constructor 2: Essential parameters only
     // public Product(String productId, String name, double price)
     public Product(String productId, String name, double price) {
-        this(productId, name, "", price, "", 0, "");
+        this(productId, name, "No description", price, "Uncategorized", 0, "Unknown");
     }
 
     // Constructor 3: Copy constructor
@@ -129,28 +143,31 @@ class Product {
     // Constructor 4: Default constructor with default values
     // public Product()
     public Product() {
-        this("", "", "", 0.0, "", 0, "");
+        this("N/A", "Unnamed", "No description", 0.0, "Unknown", 0, "None");
     }
 
     // Methods
     // displayProductInfo()
     public void displayProductInfo() {
-        System.out.println("ID: " + productId + ", Nama: " + name + ", Harga: " + price + ", Stok: " + inStock);
+        System.out.println("ID: " + productId + ", Name: " + name + ", Price: " + price +
+                ", Category: " + category + ", Stock: " + inStock + ", Supplier: " + supplier);
     }
 
     // updateStock(int quantity)
     public void updateStock(int quantity) {
         this.inStock += quantity;
+        System.out.println("Stock diperbarui. Stok saat ini: " + inStock);
     }
 
     // applyDiscount(double percentage)
     public void applyDiscount(double percentage) {
-        this.price -= this.price * percentage / 100;
+        this.price -= this.price * (percentage / 100);
+        System.out.println("Diskon " + percentage + "% diterapkan. Harga baru: " + price);
     }
 
     // isAvailable()
-    public boolean isAvailable() {
-        return inStock > 0;
+public boolean isAvailable() {
+        return this.inStock > 0;
     }
 }
 
@@ -168,6 +185,14 @@ class Employee {
 
     // Constructor chaining examples
     // Buat multiple constructors yang saling memanggil dengan this()
+    public Employee() {
+        this("N/A", "Unknown", "Employee");
+    }
+
+    public Employee(String employeeId, String firstName, String lastName) {
+        this(employeeId, firstName, lastName, "General", "Staff", 0.0, LocalDate.now());
+    }
+
     public Employee(String employeeId, String firstName, String lastName, String department, String position, double salary, LocalDate hireDate) {
         this.employeeId = employeeId;
         this.firstName = firstName;
@@ -178,52 +203,52 @@ class Employee {
         this.hireDate = hireDate;
     }
 
-    public Employee(String employeeId, String firstName, String lastName, String department, String position, double salary) {
-        this(employeeId, firstName, lastName, department, position, salary, LocalDate.now());
-    }
-
-    public Employee(String employeeId, String firstName, String lastName) {
-        this(employeeId, firstName, lastName, "", "", 0.0);
-    }
-
     // Methods
     // getFullName()
     public String getFullName() {
-        return firstName + " " + lastName;
+        return this.firstName + " " + this.lastName;
     }
 
     // calculateYearsOfService()
     public int calculateYearsOfService() {
-        return LocalDate.now().getYear() - hireDate.getYear();
+        return Period.between(this.hireDate, LocalDate.now()).getYears();
     }
 
     // getEmployeeInfo()
     public void getEmployeeInfo() {
-        System.out.println("ID: " + employeeId + ", Nama: " + getFullName() + ", Departemen: " + department + ", Lama Kerja: " + calculateYearsOfService() + " tahun");
+        System.out.println("Employee: " + getFullName() + " | Dept: " + department + " | Pos: " + position + " | Gaji: " + salary);
     }
 
     // giveRaise(double percentage)
     public void giveRaise(double percentage) {
-        this.salary += this.salary * percentage / 100;
+        this.salary += this.salary * (percentage / 100);
+        System.out.println("Kenaikan gaji " + percentage + "% diberikan. Gaji baru: " + salary);
     }
 }
 
 // Implementasikan class InitializationDemo
 class InitializationDemo {
     // Tunjukkan instance variable initialization
-    private int a = 10;
-    private String b;
-
-    {
-        System.out.println("Blok inisialisasi instance dieksekusi");
-        b = "Diinisialisasi dalam blok";
-    }
+    int a = initializeA();
+    int b = 20;
 
     // Tunjukkan urutan eksekusi constructor
-    public InitializationDemo() {
-        System.out.println("Constructor dipanggil");
-        System.out.println("Nilai a: " + a + ", Nilai b: " + b);
+    static {
+        System.out.println("Static block dieksekusi terlebih dahulu (sekali saja).");
+    }
+
+    {
+        System.out.println("Instance initializer block dieksekusi sebelum constructor.");
     }
 
     // Tambahkan System.out.println di berbagai tempat untuk tracking
+    public InitializationDemo() {
+        System.out.println("Constructor dipanggil setelah inisialisasi variabel instance.");
+        System.out.println("Nilai a: " + a + ", Nilai b: " + b);
+    }
+
+    private int initializeA() {
+        System.out.println("Instance variable 'a' sedang diinisialisasi.");
+        return 10;
+    }
 }
